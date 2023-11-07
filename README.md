@@ -12,8 +12,8 @@ server repository of LINKIT application
     </thead>
     <tbody>
         <tr>
-            <td><img src="https://avatars.githubusercontent.com/u/57624937?v=4" width="250"/></td>
-            <td><img src="https://avatars.githubusercontent.com/u/57743122?s=100&v=4" width="250"/></td>
+            <td><img src="https://avatars.githubusercontent.com/u/57624937?v=4" width="150"/></td>
+            <td><img src="https://avatars.githubusercontent.com/u/57743122?s=100&v=4" width="150"/></td>
         </tr>
         <tr>
             <td style="text-align:center;">Back-End Developer</td>
