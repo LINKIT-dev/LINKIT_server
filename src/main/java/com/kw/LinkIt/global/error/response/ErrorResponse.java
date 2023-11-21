@@ -1,6 +1,7 @@
 package com.kw.LinkIt.global.error.response;
 
 import com.kw.LinkIt.global.error.code.CommonErrorCode;
+import com.kw.LinkIt.global.error.code.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,37 +24,37 @@ public class ErrorResponse {
     private String message;
     private List<CustomFieldError> errors;
 
-    private ErrorResponse(final CommonErrorCode commonErrorCode) {
-        this.status = commonErrorCode.getStatus();
-        this.code = commonErrorCode.getCode();
-        this.message = commonErrorCode.getMessage();
+    private ErrorResponse(final ErrorCode errorCode) {
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
         this.errors = new ArrayList<>();
     }
 
-    private ErrorResponse(final CommonErrorCode commonErrorCode, final List<CustomFieldError> errors) {
-        this.status = commonErrorCode.getStatus();
-        this.code = commonErrorCode.getCode();
-        this.message = commonErrorCode.getMessage();
+    private ErrorResponse(final ErrorCode errorCode, final List<CustomFieldError> errors) {
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
         this.errors = errors;
     }
 
-    public static ErrorResponse of(final CommonErrorCode commonErrorCode, final BindingResult bindingResult) {
-        return new ErrorResponse(commonErrorCode, CustomFieldError.of(bindingResult));
+    public static ErrorResponse of(final ErrorCode errorCode, final BindingResult bindingResult) {
+        return new ErrorResponse(errorCode, CustomFieldError.of(bindingResult));
     }
 
-    public static ErrorResponse of(final CommonErrorCode commonErrorCode, final Set<ConstraintViolation<?>> constraintViolations) {
-        return new ErrorResponse(commonErrorCode, CustomFieldError.of(constraintViolations));
+    public static ErrorResponse of(final ErrorCode errorCode, final Set<ConstraintViolation<?>> constraintViolations) {
+        return new ErrorResponse(errorCode, CustomFieldError.of(constraintViolations));
     }
 
-    public static ErrorResponse of(final CommonErrorCode commonErrorCode, final String missingParameterName) {
-        return new ErrorResponse(commonErrorCode, CustomFieldError.of(missingParameterName, "", "parameter must required"));
+    public static ErrorResponse of(final ErrorCode errorCode, final String missingParameterName) {
+        return new ErrorResponse(errorCode, CustomFieldError.of(missingParameterName, "", "parameter must required"));
     }
 
-    public static ErrorResponse of(final CommonErrorCode commonErrorCode) {
-        return new ErrorResponse(commonErrorCode);
+    public static ErrorResponse of(final ErrorCode errorCode) {
+        return new ErrorResponse(errorCode);
     }
 
-    public static ErrorResponse of(final CommonErrorCode code, final List<CustomFieldError> errors) {
+    public static ErrorResponse of(final ErrorCode code, final List<CustomFieldError> errors) {
         return new ErrorResponse(code, errors);
     }
 
