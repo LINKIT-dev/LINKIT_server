@@ -1,6 +1,6 @@
-package com.kw.LinkIt.domain.link.entity;
+package com.kw.LinkIt.domain.likes.entity;
 
-import com.kw.LinkIt.domain.team.entity.Team;
+import com.kw.LinkIt.domain.link.entity.Link;
 import com.kw.LinkIt.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,25 +10,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Link {
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "link_id")
+    @Column(name = "likes_id")
     private Long id;
 
-    private String url;
-
-    private String title;
-
-    private String content;
-
-    private String previewImg;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "link_id")
+    private Link link;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
 }

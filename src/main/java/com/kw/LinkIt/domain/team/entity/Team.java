@@ -1,5 +1,6 @@
 package com.kw.LinkIt.domain.team.entity;
 
+import com.kw.LinkIt.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,4 +20,8 @@ public class Team {
     private String profileImg;
 
     private Integer capacity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "leader_id")
+    private User leader;
 }
