@@ -34,12 +34,16 @@ public class HashtagController {
         return BaseResponse.ok(new GetTeamHashtagsVO(hashtags));
     }
 
+    /**
+     * 우선 POST 요청 성공 시 메세지가 반환되도록 구현. 추후 Long타입으로 바꿔야함.
+     */
     @Operation(summary = "[링크 등록 모달] 특정 팀에 새로운 해시태그 생성", description = "'링크 등록' 시 유저가 기존에 존재하던 해시태그 외 새로운 해시태그를 생성했을 경우, 해당 api 로 요청하여 새 해시태그를 등록한다. " +
             "<br> 반환값: 새로 생성된 해시태그 고유 id")
-    @PostMapping("/team-hashtags/{teamId}")
-    public ResponseEntity<Long> postHashtag(
-            @ModelAttribute @Valid PostHashtagDTO postHashtagDTO) {
-        return BaseResponse.ok(Long.valueOf(100));
+    @PostMapping("")
+    public ResponseEntity<String> postHashtag( @ModelAttribute @Valid PostHashtagDTO postHashtagDTO) {
+        hashtagService.postHashtagByTeam(postHashtagDTO);
+//        Long newHashtagId = hashtagService.find(postHashtagDTO.get)
+        return BaseResponse.ok("태그 등록 완료");
     }
 
     @Operation(summary = "특정 해시태그를 삭제", description = "'해시태그 고유 id' 를 전송해, 특정 해시태그를 삭제한다.")

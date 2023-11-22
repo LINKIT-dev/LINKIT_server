@@ -1,5 +1,6 @@
 package com.kw.LinkIt.domain.hashtag.repository;
 
+import com.kw.LinkIt.domain.hashtag.dto.request.PostHashtagDTO;
 import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
 import com.kw.LinkIt.domain.hashtag.entity.QHashtag;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -25,4 +26,5 @@ public class HashtagRepositoryImpl implements CustomHashtagRepository {
                 .stream()
                 .toList();
     }
+
 }

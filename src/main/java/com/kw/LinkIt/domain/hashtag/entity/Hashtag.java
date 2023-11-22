@@ -3,6 +3,7 @@ package com.kw.LinkIt.domain.hashtag.entity;
 import com.kw.LinkIt.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class Hashtag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @Builder
+    public Hashtag(String name, Team team) {
+        this.name = name;
+        this.team = team;
+    }
 }
