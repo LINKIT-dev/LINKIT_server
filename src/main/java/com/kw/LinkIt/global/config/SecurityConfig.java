@@ -26,7 +26,10 @@ public class SecurityConfig {
             "/webjars/**",
 
             //auth
-            "/auth/sign-up", "/auth/login"
+            "/auth/sign-up", "/auth/login",
+
+            //hashtag
+            "/hashtag/**"
     };
 
     private final JwtTokenProvider jwtTokenProvider;
