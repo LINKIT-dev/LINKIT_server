@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class PostLinkDTO {
 
     private String content;
 
-    private String previewImg;
+    private MultipartFile previewImg;
 
     @NotNull
     private Long teamId;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ public class UpdateTeamProfileDTO {
     @NotBlank
     private String name;
 
-    private String profileImg;
+    private MultipartFile profileImg;
 
     @NotNull
     private Integer capacity;
