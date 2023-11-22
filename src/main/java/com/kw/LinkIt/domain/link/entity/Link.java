@@ -24,8 +24,6 @@ public class Link {
 
     private String previewImg;
 
-    private Integer liked;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
