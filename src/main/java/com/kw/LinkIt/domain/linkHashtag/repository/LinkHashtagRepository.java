@@ -23,4 +23,5 @@ public interface LinkHashtagRepository extends JpaRepository<LinkHashtag, Long> 
     )
     void deleteAllByHashtag(@Param("hashtagId") Long hashtagId);
 
+    List<LinkHashtag> findAllByLink(Link link);
 }

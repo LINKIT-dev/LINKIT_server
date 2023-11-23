@@ -5,6 +5,7 @@ import com.kw.LinkIt.domain.hashtag.repository.HashtagRepository;
 import com.kw.LinkIt.domain.link.dto.request.PostLinkDTO;
 import com.kw.LinkIt.domain.link.dto.response.GetTeamLinksVO;
 import com.kw.LinkIt.domain.link.dto.response.LinkVO;
+import com.kw.LinkIt.domain.link.dto.response.UserVO;
 import com.kw.LinkIt.domain.link.entity.Link;
 import com.kw.LinkIt.domain.link.error.LinkErrorCode;
 import com.kw.LinkIt.domain.link.repository.LinkRepository;
@@ -34,15 +35,38 @@ public class LinkService {
 
     public GetTeamLinksVO getTeamLinks(Long teamId, String hashtagName) {
         Team team = getTeam(teamId);
+        List<LinkVO> linkVOs;
 
         if (hashtagName == null) {
             List<Link> links = linkRepository.findAllByTeamId(teamId);
-            return new GetTeamLinksVO(team.getName(), LinkVO.ofList(links), links.size());
+            linkVOs = links.stream()
+                    .map(link -> {
+                        List<String> hashtags = getHashtagNamesOfLink(link);
+                        return new LinkVO(
+                                new UserVO(link.getUser().getUid(), link.getUser().getProfileImg()),
+                                link.getTitle(),
+                                link.getContent(),
+                                link.getPreviewImg(),
+                                hashtags,
+                                link.getUrl());
+                    }).collect(Collectors.toList());
+            return new GetTeamLinksVO(team.getName(), linkVOs, links.size());
         }
 
         List<LinkHashtag> linkHashtags = linkHashtagRepository.findAllByTeamIdAndHastagName(teamId, hashtagName);
         List<Link> links = linkHashtags.stream().map(LinkHashtag::getLink).collect(Collectors.toList());
-        return new GetTeamLinksVO(team.getName(), LinkVO.ofList(links), links.size());
+        linkVOs = links.stream()
+                .map(link -> {
+                    List<String> hashtags = getHashtagNamesOfLink(link);
+                    return new LinkVO(
+                            new UserVO(link.getUser().getUid(), link.getUser().getProfileImg()),
+                            link.getTitle(),
+                            link.getContent(),
+                            link.getPreviewImg(),
+                            hashtags,
+                            link.getUrl());
+                }).collect(Collectors.toList());
+        return new GetTeamLinksVO(team.getName(), linkVOs, links.size());
     }
 
     @Transactional
@@ -90,6 +114,14 @@ public class LinkService {
                     .name(hashtagName)
                     .team(team)
                     .build());
+        }).collect(Collectors.toList());
+    }
+
+    private List<String> getHashtagNamesOfLink(Link link) {
+        List<LinkHashtag> linkHashtags = linkHashtagRepository.findAllByLink(link);
+        return linkHashtags.stream().map(linkHashtag -> {
+            Hashtag hashtag = linkHashtag.getHashtag();
+            return hashtag.getName();
         }).collect(Collectors.toList());
     }
 
