@@ -1,5 +1,8 @@
 package com.kw.LinkIt.domain.link.dto.request;
 
+import com.kw.LinkIt.domain.link.entity.Link;
+import com.kw.LinkIt.domain.team.entity.Team;
+import com.kw.LinkIt.domain.user.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,4 +29,15 @@ public class PostLinkDTO {
     private Long teamId;
 
     private List<String> hashtagNames;
+
+    public Link toEntity(User user, Team team) {
+        return Link.builder()
+                    .url(this.url)
+                    .title(this.title)
+                    .content(this.content)
+                    .previewImg(this.previewImgUrl)
+                    .user(user)
+                    .team(team)
+                .build();
+    }
 }

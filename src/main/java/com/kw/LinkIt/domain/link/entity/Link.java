@@ -4,6 +4,7 @@ import com.kw.LinkIt.domain.team.entity.Team;
 import com.kw.LinkIt.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,14 @@ public class Link {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @Builder
+    public Link(String url, String title, String content, String previewImg, User user, Team team) {
+        this.url = url;
+        this.title = title;
+        this.content = content;
+        this.previewImg = previewImg;
+        this.user = user;
+        this.team = team;
+    }
 }

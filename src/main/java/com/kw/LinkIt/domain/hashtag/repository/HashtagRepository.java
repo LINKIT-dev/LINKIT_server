@@ -2,6 +2,8 @@ package com.kw.LinkIt.domain.hashtag.repository;
 
 import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +17,7 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
     )
     List<Hashtag> findAllByTeam(@Param("teamId") Long teamId);
 
+    Boolean existsByNameAndTeamId(String hashtagName, Long teamId);
+
+    Optional<Hashtag> findByNameAndTeamId(String hashtagName, Long teamId);
 }
