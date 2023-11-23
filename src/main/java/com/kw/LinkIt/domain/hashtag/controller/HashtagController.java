@@ -1,5 +1,6 @@
 package com.kw.LinkIt.domain.hashtag.controller;
 
+import com.kw.LinkIt.domain.hashtag.dto.request.DeleteHashtagDTO;
 import com.kw.LinkIt.domain.hashtag.dto.request.PostHashtagDTO;
 import com.kw.LinkIt.domain.hashtag.dto.response.GetTeamHashtagsVO;
 import com.kw.LinkIt.domain.hashtag.dto.response.HashtagVO;
@@ -46,6 +47,7 @@ public class HashtagController {
     @Operation(summary = "특정 해시태그를 삭제", description = "'해시태그 고유 id' 를 전송해, 특정 해시태그를 삭제한다.")
     @DeleteMapping("/{hashtagId}")
     public ResponseEntity<String> deleteHashtag(@PathVariable("hashtagId") Long hashtagId) {
+        hashtagService.deleteHashtag(new DeleteHashtagDTO(hashtagId));
         return BaseResponse.ok("해시태그 삭제 성공");
     }
 }

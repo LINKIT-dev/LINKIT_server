@@ -22,6 +22,7 @@ public class TeamController {
     @Operation(summary = "팀 생성")
     @PostMapping
     public ResponseEntity<String> createTeam(@ModelAttribute @Valid CreateTeamDTO createTeamDTO) {
+        teamService.createTeam(createTeamDTO);
         return BaseResponse.ok("팀 생성 완료");
     }
 
