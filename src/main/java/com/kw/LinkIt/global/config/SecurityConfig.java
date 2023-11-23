@@ -32,8 +32,8 @@ public class SecurityConfig {
             "/hashtag",
             "/hashtag/**",
 
-            //linkHashtag
-            "/link"
+            //teams
+            "/team/**"
     };
 
     private final JwtTokenProvider jwtTokenProvider;
