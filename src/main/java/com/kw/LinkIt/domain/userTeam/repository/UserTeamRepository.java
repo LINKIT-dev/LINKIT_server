@@ -12,4 +12,5 @@ import java.util.List;
 public interface UserTeamRepository extends JpaRepository<UserTeam, Long> {
     List<UserTeam> findAllByUser(User user);
     List<UserTeam> findAllByTeam(Team team);
+    boolean existsByUserAndTeam(User user, Team team);
 }

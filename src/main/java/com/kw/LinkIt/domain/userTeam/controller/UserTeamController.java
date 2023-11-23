@@ -31,7 +31,8 @@ public class UserTeamController {
 
     @Operation(summary = "팀원 추가", description = "팀장이 팀에 팀원을 추가합니다. (팀장이 아닐 경우, 오류메시지를 반환합니다.)")
     @PostMapping("/members/{teamId}")
-    public ResponseEntity<String> addTeamMembers(@PathVariable("teamId") Long teamId, @RequestParam @NotBlank String nickname) {
+    public ResponseEntity<String> addTeamMembers(@PathVariable("teamId") Long teamId, @RequestParam @NotBlank String nickname, @AuthenticationPrincipal User user) {
+        userTeamService.addTeamMembers(teamId,nickname,user);
         return BaseResponse.ok("팀원 추가 완료");
     }
 }

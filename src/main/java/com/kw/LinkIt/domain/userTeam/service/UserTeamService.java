@@ -2,12 +2,16 @@ package com.kw.LinkIt.domain.userTeam.service;
 
 import com.kw.LinkIt.domain.hashtag.repository.HashtagRepository;
 import com.kw.LinkIt.domain.team.entity.Team;
+import com.kw.LinkIt.domain.team.repository.TeamRepository;
 import com.kw.LinkIt.domain.user.entity.User;
 import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
+import com.kw.LinkIt.domain.user.repository.UserRepository;
 import com.kw.LinkIt.domain.userTeam.dto.response.GetMyParticipationsVO;
 import com.kw.LinkIt.domain.userTeam.dto.response.TeamVO;
 import com.kw.LinkIt.domain.userTeam.entity.UserTeam;
+import com.kw.LinkIt.domain.userTeam.error.UserTeamErrorCode;
 import com.kw.LinkIt.domain.userTeam.repository.UserTeamRepository;
+import com.kw.LinkIt.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,8 @@ public class UserTeamService {
 
     private final UserTeamRepository userTeamRepository;
     private final HashtagRepository hashtagRepository;
+    private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     public GetMyParticipationsVO getMyParticipations(User user) {
         List<Team> myTeams = userTeamRepository.findAllByUser(user).stream().map(UserTeam::getTeam).collect(Collectors.toList());
@@ -34,6 +40,28 @@ public class UserTeamService {
         }).collect(Collectors.toList());
 
         return new GetMyParticipationsVO(teamVOs, myTeams.size());
+    }
+
+    @Transactional
+    public void addTeamMembers(Long teamId, String addingMemberUid, User user) {;
+        Team team = getTeam(teamId);
+        validateIsLeader(user, team);
+
+        User addingMember = getUser(addingMemberUid);
+        validateIsMember(addingMember,team);
+
+        userTeamRepository.save(UserTeam.builder()
+                .user(addingMember)
+                .team(team)
+                .build());
+    }
+
+    private Team getTeam(Long teamId) {
+        return teamRepository.findById(teamId).get();
+    }
+
+    private User getUser(String uid) {
+        return userRepository.findByUid(uid).get();
     }
 
     private List<String> getMemberProfileImgs(Team team) {
@@ -55,5 +83,17 @@ public class UserTeamService {
 
     private int getTotalHashtagCounts(Team team) {
         return hashtagRepository.countAllByTeamId(team.getId());
+    }
+
+    private void validateIsLeader(User user, Team team) {
+        if (!(user.getId() == team.getLeader().getId())) {
+            throw new BusinessException(UserTeamErrorCode.IS_NOT_LEADER);
+        }
+    }
+
+    private void validateIsMember(User user, Team team) {
+        if (userTeamRepository.existsByUserAndTeam(user,team)) {
+            throw new BusinessException(UserTeamErrorCode.ALREADY_IN_TEAM);
+        }
     }
 }
