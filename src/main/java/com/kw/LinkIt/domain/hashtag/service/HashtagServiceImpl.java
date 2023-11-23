@@ -30,13 +30,13 @@ public class HashtagServiceImpl implements HashtagService {
 
     @Override
     @Transactional
-    public void postHashtagByTeam (PostHashtagDTO postHashtagDTO) {
+    public HashtagVO postHashtagByTeam (PostHashtagDTO postHashtagDTO) {
         Optional<Team> myTeam = teamRepository.findById(postHashtagDTO.getTeamId());
 
-        // TODO : Exception Handling
-        hashtagRepository.save(Hashtag.builder()
-                .name(postHashtagDTO.getHashtagName())
-                .team(myTeam.get())
-                .build());
+        Hashtag newHashtag = hashtagRepository.save(Hashtag.builder()
+                    .name(postHashtagDTO.getHashtagName())
+                    .team(myTeam.orElseThrow())
+                    .build());
+        return new HashtagVO(newHashtag.getId(), newHashtag.getName());
     }
 }

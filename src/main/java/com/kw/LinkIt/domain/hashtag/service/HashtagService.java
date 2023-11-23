@@ -8,5 +8,5 @@ import java.util.List;
 public interface HashtagService {
     List<HashtagVO> findAllHashtag(long teamId);
 
-    void postHashtagByTeam(PostHashtagDTO postHashtagDTO);
+    HashtagVO postHashtagByTeam(PostHashtagDTO postHashtagDTO);
 }

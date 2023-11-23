@@ -5,9 +5,4 @@ import java.util.List;
 
 public record GetTeamHashtagsVO(List<HashtagVO> hashtags) {
 
-
-    public static GetTeamHashtagsVO mock() {
-        return new GetTeamHashtagsVO(HashtagVO.mock());
-    }
-
 }
