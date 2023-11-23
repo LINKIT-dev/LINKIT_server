@@ -2,6 +2,7 @@ package com.kw.LinkIt.domain.link.service;
 
 import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
 import com.kw.LinkIt.domain.hashtag.repository.HashtagRepository;
+import com.kw.LinkIt.domain.likes.repository.LikesRepository;
 import com.kw.LinkIt.domain.link.dto.request.PostLinkDTO;
 import com.kw.LinkIt.domain.link.dto.response.GetTeamLinksVO;
 import com.kw.LinkIt.domain.link.dto.response.LinkVO;
@@ -32,8 +33,9 @@ public class LinkService {
     private final LinkHashtagRepository linkHashtagRepository;
     private final TeamRepository teamRepository;
     private final HashtagRepository hashtagRepository;
+    private final LikesRepository likesRepository;
 
-    public GetTeamLinksVO getTeamLinks(Long teamId, String hashtagName) {
+    public GetTeamLinksVO getTeamLinks(Long teamId, String hashtagName, User user) {
         Team team = getTeam(teamId);
         List<LinkVO> linkVOs;
 
@@ -48,7 +50,8 @@ public class LinkService {
                                 link.getContent(),
                                 link.getPreviewImg(),
                                 hashtags,
-                                link.getUrl());
+                                link.getUrl(),
+                                isLikePressed(link,user));
                     }).collect(Collectors.toList());
             return new GetTeamLinksVO(team.getName(), linkVOs, links.size());
         }
@@ -64,7 +67,8 @@ public class LinkService {
                             link.getContent(),
                             link.getPreviewImg(),
                             hashtags,
-                            link.getUrl());
+                            link.getUrl(),
+                            isLikePressed(link,user));
                 }).collect(Collectors.toList());
         return new GetTeamLinksVO(team.getName(), linkVOs, links.size());
     }
@@ -123,6 +127,13 @@ public class LinkService {
             Hashtag hashtag = linkHashtag.getHashtag();
             return hashtag.getName();
         }).collect(Collectors.toList());
+    }
+
+    private Boolean isLikePressed(Link link, User user) {
+        if (likesRepository.existsByUserAndLink(user,link)) {
+            return true;
+        }
+        return false;
     }
 
     private void validateOwnershipOfLink(Link link, User user) {
