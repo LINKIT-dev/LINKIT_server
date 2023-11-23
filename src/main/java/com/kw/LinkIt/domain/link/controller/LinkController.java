@@ -49,7 +49,8 @@ public class LinkController {
 
     @Operation(summary = "링크 삭제", description = "링크를 삭제합니다.")
     @DeleteMapping("/{linkId}")
-    public ResponseEntity<String> deleteLink(@PathVariable("linkId") Long linkId) {
+    public ResponseEntity<String> deleteLink(@PathVariable("linkId") Long linkId, @AuthenticationPrincipal User user) {
+        linkService.deleteLink(linkId, user);
         return BaseResponse.ok("링크 삭제 완료");
     }
 }

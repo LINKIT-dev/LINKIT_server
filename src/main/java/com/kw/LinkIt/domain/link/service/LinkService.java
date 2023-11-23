@@ -6,12 +6,15 @@ import com.kw.LinkIt.domain.link.dto.request.PostLinkDTO;
 import com.kw.LinkIt.domain.link.dto.response.GetTeamLinksVO;
 import com.kw.LinkIt.domain.link.dto.response.LinkVO;
 import com.kw.LinkIt.domain.link.entity.Link;
+import com.kw.LinkIt.domain.link.error.LinkErrorCode;
 import com.kw.LinkIt.domain.link.repository.LinkRepository;
 import com.kw.LinkIt.domain.linkHashtag.entity.LinkHashtag;
 import com.kw.LinkIt.domain.linkHashtag.repository.LinkHashtagRepository;
 import com.kw.LinkIt.domain.team.entity.Team;
 import com.kw.LinkIt.domain.team.repository.TeamRepository;
 import com.kw.LinkIt.domain.user.entity.User;
+import com.kw.LinkIt.global.error.code.CommonErrorCode;
+import com.kw.LinkIt.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,9 +64,22 @@ public class LinkService {
         });
     }
 
+    @Transactional
+    public void deleteLink(Long linkId, User user) {
+        validateLinkExists(linkId);
+        Link link = getLink(linkId);
+
+        validateOwnershipOfLink(link, user);
+
+        linkHashtagRepository.deleteAllByLink(link);
+        linkRepository.delete(link);
+    }
+
     private Team getTeam(Long teamId) {
         return teamRepository.findById(teamId).get();
     }
+
+    private Link getLink(Long linkId) { return linkRepository.findById(linkId).get(); }
 
     private List<Hashtag> getHashtagsOfLink(List<String> hashtagNames, Team team) {
         return hashtagNames.stream().map(hashtagName -> {
@@ -75,5 +91,17 @@ public class LinkService {
                     .team(team)
                     .build());
         }).collect(Collectors.toList());
+    }
+
+    private void validateOwnershipOfLink(Link link, User user) {
+        if (!(link.getUser().getId() == user.getId())) {
+            throw new BusinessException(LinkErrorCode.INVALID_LINK_OWNERSHIP);
+        }
+    }
+
+    private void validateLinkExists(Long linkId) {
+        if (!linkRepository.existsById(linkId)) {
+            throw new BusinessException(CommonErrorCode.NOT_FOUND);
+        }
     }
 }

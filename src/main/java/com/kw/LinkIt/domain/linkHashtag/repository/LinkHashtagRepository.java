@@ -1,5 +1,6 @@
 package com.kw.LinkIt.domain.linkHashtag.repository;
 
+import com.kw.LinkIt.domain.link.entity.Link;
 import com.kw.LinkIt.domain.linkHashtag.entity.LinkHashtag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,6 @@ public interface LinkHashtagRepository extends JpaRepository<LinkHashtag, Long> 
             "where lh.link.team.id = :teamId " +
                 "and lh.hashtag.name = :hashtagName")
     List<LinkHashtag> findAllByTeamIdAndHastagName(Long teamId, String hashtagName);
+
+    void deleteAllByLink(Link link);
 }
