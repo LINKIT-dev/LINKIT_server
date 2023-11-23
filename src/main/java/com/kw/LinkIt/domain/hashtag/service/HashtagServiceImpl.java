@@ -40,7 +40,7 @@ public class HashtagServiceImpl implements HashtagService {
     public List<String> findAllHashtagNames(User user) {
         // 유저가 속한 모든 팀 불러오기
         List<UserTeam> userTeams = userTeamRepository.findAllByUser(user);
-        List<Team> allTeams = userTeams.stream().map(UserTeam::getTeam).collect(Collectors.toList());
+        List<Team> allTeams = userTeams.stream().map(UserTeam::getTeam).toList();
 
         // 각 팀에 속한 hashtagNames 반환
         List<String> allHashtagNames = new ArrayList<>();
