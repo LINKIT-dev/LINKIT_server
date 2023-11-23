@@ -34,6 +34,17 @@ public class LikesService {
                 .build());
     }
 
+    @Transactional
+    public void deleteLike(Long linkId, User user) {
+        Link link = getLink(linkId);
+
+        if(!likesRepository.existsByUserAndLink(user,link)) {
+            throw new BusinessException(LikesErrorCode.LIKES_NOT_PRESSED_YET);
+        }
+
+        likesRepository.deleteByUserAndLink(user,link);
+    }
+
     private Link getLink(Long linkId) {
         return linkRepository.findById(linkId).orElseThrow(() -> new BusinessException(CommonErrorCode.NOT_FOUND));
     }

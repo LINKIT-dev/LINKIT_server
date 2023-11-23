@@ -27,7 +27,8 @@ public class LikesController {
 
     @Operation(summary = "링크에 좋아요 취소")
     @DeleteMapping("/{linkId}")
-    public ResponseEntity<String> deleteLike(@PathVariable("linkId") Long linkId) {
+    public ResponseEntity<String> deleteLike(@PathVariable("linkId") Long linkId, @AuthenticationPrincipal User user) {
+        likesService.deleteLike(linkId,user);
         return BaseResponse.ok("좋아요 취소 완료");
     }
 }

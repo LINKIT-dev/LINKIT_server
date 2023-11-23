@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum LikesErrorCode implements ErrorCode {
-    LIKES_ALREADY_PRESSED(HttpStatus.BAD_REQUEST, "Likes-001", "이미 좋아요를 누른 링크입니다.");
+    LIKES_ALREADY_PRESSED(HttpStatus.BAD_REQUEST, "Likes-001", "이미 좋아요를 누른 링크입니다."),
+    LIKES_NOT_PRESSED_YET(HttpStatus.BAD_REQUEST, "Likes-002", "좋아요를 누른 적 없는 링크입니다.");
 
     private HttpStatus status;
     private String code;
