@@ -14,7 +14,7 @@ public class UpdateTeamProfileDTO {
     @NotBlank
     private String name;
 
-    private MultipartFile profileImg;
+    private String profileImgUrl;
 
     @NotNull
     private Integer capacity;
