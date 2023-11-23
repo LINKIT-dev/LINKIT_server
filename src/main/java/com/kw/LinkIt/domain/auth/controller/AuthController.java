@@ -24,14 +24,14 @@ public class AuthController {
 
     private final AuthServiceImpl authService;
 
-    @Operation(summary = "유저 회원가입", description = "신규 유저를 등록합니다.")
+    @Operation(summary = "유저 회원가입")
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody @Valid SignUpDTO signUpDTO) {
         authService.signUp(signUpDTO);
         return BaseResponse.ok("회원가입 완료");
     }
 
-    @Operation(summary = "유저 로그인", description = "로그인 성공 시, AccessToken을 반환합니다.")
+    @Operation(summary = "유저 로그인")
     @PostMapping("/login")
     public ResponseEntity<TokenVO> login(@RequestBody LoginDTO loginDTO) {
         System.out.println("---- loginReq uid : " + loginDTO.getUid());
@@ -40,9 +40,17 @@ public class AuthController {
         return BaseResponse.ok(token);
     }
 
-    @Operation(summary = "유저 로그아웃", description = "로그아웃 요청 시, 별다른 처리 없이 성공 메세지를 반환합니다.")
-    @GetMapping("/logout")
-    public ResponseEntity<String> logout(@AuthenticationPrincipal User user) {
-        return BaseResponse.ok("로그아웃 성공");
+    @GetMapping("/test")
+    public ResponseEntity<String> test(@AuthenticationPrincipal User user) {
+        System.out.println("----- user.uid : " + user.getUid());
+        return BaseResponse.ok("LOGIN SUCCESS");
     }
+
+
+
+//    @GetMapping("/logout")
+//    public ResponseEntity<String> logout(@AuthenticationPrincipal User user) {
+//        authService.logout(user.getId());
+//        return BaseResponse.ok("로그아웃 성공");
+//    }
 }
