@@ -3,7 +3,6 @@ package com.kw.LinkIt.domain.hashtag.controller;
 import com.kw.LinkIt.domain.hashtag.dto.request.PostHashtagDTO;
 import com.kw.LinkIt.domain.hashtag.dto.response.GetTeamHashtagsVO;
 import com.kw.LinkIt.domain.hashtag.dto.response.HashtagVO;
-import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
 import com.kw.LinkIt.domain.hashtag.service.HashtagService;
 import com.kw.LinkIt.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,11 +26,10 @@ public class HashtagController {
 
     @Operation(summary = "[팀 페이지] 해당 팀에 등록된 모든 해시태그 조회")
     @GetMapping("/team-hashtags/{teamId}")
-    public ResponseEntity<GetTeamHashtagsVO> getTeamHashtags(@Parameter(description = "특정 팀에 등록되어 있는 모든 해시태그 조회")
+    public ResponseEntity<List<String>> getTeamHashtags(@Parameter(description = "특정 팀에 등록되어 있는 모든 해시태그 조회")
                                                        @PathVariable("teamId") Long teamId) {
-        List<HashtagVO> hashtags = hashtagService.findAllHashtag(teamId);
-
-        return BaseResponse.ok(new GetTeamHashtagsVO(hashtags));
+        List<String> hashtagNames = hashtagService.findAllHashtagNames(teamId);
+        return BaseResponse.ok(hashtagNames);
     }
 
     /**
