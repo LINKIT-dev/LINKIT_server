@@ -3,6 +3,7 @@ package com.kw.LinkIt.domain.link.controller;
 import com.kw.LinkIt.domain.link.dto.request.PostLinkDTO;
 import com.kw.LinkIt.domain.link.dto.request.UpdateLinkDTO;
 import com.kw.LinkIt.domain.link.dto.response.GetTeamLinksVO;
+import com.kw.LinkIt.domain.link.service.LinkService;
 import com.kw.LinkIt.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,11 +21,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/link")
 public class LinkController {
 
+    private final LinkService linkService;
+
     @Operation(summary = "[팀 페이지] 해당 팀에 등록된 모든 링크 조회")
-    @GetMapping("/team-links")
-    public ResponseEntity<GetTeamLinksVO> getTeamLinks(@Parameter(description = "특정 해시태그에 대해 검색하고 싶을 경우 해시태그 고유id 입력 (입력하지 않을 경우, 전체 링크 조회)")
-                                                           @RequestParam(required = false) Long hashtagId) {
-        return BaseResponse.ok(GetTeamLinksVO.mock());
+    @GetMapping("/team-links/{teamId}")
+    public ResponseEntity<GetTeamLinksVO> getTeamLinks(@PathVariable("teamId") Long teamId,
+                                                       @Parameter(description = "특정 해시태그에 대해 검색하고 싶을 경우 해시태그 이름 입력 (입력하지 않을 경우, 전체 링크 조회)")
+                                                           @RequestParam(required = false) String hashtagName) {
+        GetTeamLinksVO getTeamLinksVO = linkService.getTeamLinks(teamId, hashtagName);
+        return BaseResponse.ok(getTeamLinksVO);
     }
 
     @Operation(summary = "링크 등록", description = "특정 팀에 링크를 등록합니다.")
