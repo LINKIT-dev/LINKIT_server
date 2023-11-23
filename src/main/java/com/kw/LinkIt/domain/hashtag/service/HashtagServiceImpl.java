@@ -8,6 +8,8 @@ import com.kw.LinkIt.domain.team.entity.Team;
 import com.kw.LinkIt.domain.team.repository.TeamRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +22,9 @@ public class HashtagServiceImpl implements HashtagService {
     private final HashtagRepository hashtagRepository;
     private final TeamRepository teamRepository;
 
-    public List<HashtagVO> findAllHashtag(long teamId) {
+    public List<String> findAllHashtagNames(long teamId) {
         List<Hashtag> allHashTags = hashtagRepository.findAllByTeam(teamId);
-
-        return allHashTags.stream()
-                .map(HashtagVO::of)
-                .toList();
+        return allHashTags.stream().map(Hashtag::getName).collect(Collectors.toList());
     }
 
     @Override
