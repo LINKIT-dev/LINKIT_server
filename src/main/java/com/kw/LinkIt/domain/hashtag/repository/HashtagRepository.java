@@ -20,4 +20,8 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
     Boolean existsByNameAndTeamId(String hashtagName, Long teamId);
 
     Optional<Hashtag> findByNameAndTeamId(String hashtagName, Long teamId);
+
+    List<Hashtag> findTop3ByTeamId(Long teamId);
+
+    int countAllByTeamId(Long teamId);
 }
