@@ -6,6 +6,7 @@ import com.kw.LinkIt.domain.auth.dto.response.TokenVO;
 import com.kw.LinkIt.domain.auth.service.AuthServiceImpl;
 import com.kw.LinkIt.domain.user.entity.User;
 import com.kw.LinkIt.global.common.response.BaseResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,14 @@ public class AuthController {
 
     private final AuthServiceImpl authService;
 
+    @Operation(summary = "유저 회원가입")
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody @Valid SignUpDTO signUpDTO) {
         authService.signUp(signUpDTO);
         return BaseResponse.ok("회원가입 완료");
     }
 
+    @Operation(summary = "유저 로그인")
     @PostMapping("/login")
     public ResponseEntity<TokenVO> login(@RequestBody LoginDTO loginDTO) {
         System.out.println("---- loginReq uid : " + loginDTO.getUid());
