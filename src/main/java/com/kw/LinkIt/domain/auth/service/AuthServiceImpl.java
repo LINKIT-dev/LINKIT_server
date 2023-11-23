@@ -34,18 +34,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenVO login(LoginDTO loginDTO) {
-        System.out.println("---- loginReq uid : " + loginDTO.getUid());
-
-
         User user = userRepository.findByUid(loginDTO.getUid())
                 .orElseThrow(() -> new BusinessException(AuthErrorCode.WRONG_ID));
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new BusinessException(AuthErrorCode.WRONG_PW);
         }
 
-        return TokenVO.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user.getId()))
-                .build();
+        return new TokenVO(
+                jwtTokenProvider.createAccessToken(user.getId()),
+                jwtTokenProvider.createRefreshToken(user.getId())
+        );
     }
 
 }

@@ -5,11 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class TokenVO {
-    private String accessToken;
-    private String refreshToken;
-}
+
+
+public record TokenVO(String accessToken, String refreshToken) { }
