@@ -66,8 +66,8 @@ public class HashtagServiceImpl implements HashtagService {
     @Override
     @Transactional
     public void deleteHashtag(DeleteHashtagDTO deleteHashtagDTO) {
+        linkHashtagRepository.deleteAllByHashtagId(deleteHashtagDTO.getHashtagId());
         hashtagRepository.deleteById(deleteHashtagDTO.getHashtagId());
-        linkHashtagRepository.deleteAllByHashtag(deleteHashtagDTO.getHashtagId());
     }
 
     private List<String> findAllHashtagNamesOfTeam(Team team) {

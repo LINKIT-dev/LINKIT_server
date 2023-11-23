@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record LinkVO(UserVO userVO, String title, String content, String linkPreviewImg, List<String> tags, String url) {
+public record LinkVO(UserVO userVO, String title, String content, String linkPreviewImg, List<String> tags, String url, Boolean isLikePressed) {
     // TODO: mock 데이터 추후 삭제
 //    public static List<LinkVO> mock() {
 //        return new ArrayList<>(Arrays.asList(

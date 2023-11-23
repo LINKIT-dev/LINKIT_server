@@ -4,6 +4,7 @@ import com.kw.LinkIt.domain.link.entity.Link;
 import com.kw.LinkIt.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,10 @@ public class Likes {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Likes(Link link, User user) {
+        this.link = link;
+        this.user = user;
+    }
 }

@@ -29,8 +29,8 @@ public class LinkController {
     @GetMapping("/team-links/{teamId}")
     public ResponseEntity<GetTeamLinksVO> getTeamLinks(@PathVariable("teamId") Long teamId,
                                                        @Parameter(description = "특정 해시태그에 대해 검색하고 싶을 경우 해시태그 이름 입력 (입력하지 않을 경우, 전체 링크 조회)")
-                                                           @RequestParam(required = false) String hashtagName) {
-        GetTeamLinksVO getTeamLinksVO = linkService.getTeamLinks(teamId, hashtagName);
+                                                           @RequestParam(required = false) String hashtagName, @AuthenticationPrincipal User user) {
+        GetTeamLinksVO getTeamLinksVO = linkService.getTeamLinks(teamId, hashtagName, user);
         return BaseResponse.ok(getTeamLinksVO);
     }
 
