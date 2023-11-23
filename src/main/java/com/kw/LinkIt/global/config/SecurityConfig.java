@@ -29,7 +29,11 @@ public class SecurityConfig {
             "/auth/sign-up", "/auth/login",
 
             //hashtag
-            "/hashtag/**"
+            "/hashtag",
+            "/hashtag/**",
+
+            //teams
+            "/team/**"
     };
 
     private final JwtTokenProvider jwtTokenProvider;
