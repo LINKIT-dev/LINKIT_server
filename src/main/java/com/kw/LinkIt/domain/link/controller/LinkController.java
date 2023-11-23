@@ -4,6 +4,7 @@ import com.kw.LinkIt.domain.link.dto.request.PostLinkDTO;
 import com.kw.LinkIt.domain.link.dto.request.UpdateLinkDTO;
 import com.kw.LinkIt.domain.link.dto.response.GetTeamLinksVO;
 import com.kw.LinkIt.domain.link.service.LinkService;
+import com.kw.LinkIt.domain.user.entity.User;
 import com.kw.LinkIt.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +36,8 @@ public class LinkController {
 
     @Operation(summary = "링크 등록", description = "특정 팀에 링크를 등록합니다.")
     @PostMapping()
-    public ResponseEntity<String> postLink(@ModelAttribute @Valid PostLinkDTO postLinkDTO) {
+    public ResponseEntity<String> postLink(@RequestBody @Valid PostLinkDTO postLinkDTO, @AuthenticationPrincipal User user) {
+        linkService.postLink(postLinkDTO, user);
         return BaseResponse.ok("링크 등록 완료");
     }
 

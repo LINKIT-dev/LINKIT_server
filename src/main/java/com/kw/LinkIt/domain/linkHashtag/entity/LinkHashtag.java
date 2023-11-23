@@ -4,6 +4,7 @@ import com.kw.LinkIt.domain.hashtag.entity.Hashtag;
 import com.kw.LinkIt.domain.link.entity.Link;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,10 @@ public class LinkHashtag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hashtag_id")
     private Hashtag hashtag;
+
+    @Builder
+    public LinkHashtag(Link link, Hashtag hashtag) {
+        this.link = link;
+        this.hashtag = hashtag;
+    }
 }
