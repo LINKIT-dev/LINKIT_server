@@ -44,7 +44,7 @@ public class HashtagController {
     @Operation(summary = "[링크 등록 모달] 특정 팀에 새로운 해시태그 생성", description = "'링크 등록' 시 유저가 기존에 존재하던 해시태그 외 새로운 해시태그를 생성했을 경우, 해당 api 로 요청하여 새 해시태그를 등록한다. " +
             "<br> 반환값: 새로 생성된 해시태그 고유 id")
     @PostMapping("")
-    public ResponseEntity<Long> postHashtag( @ModelAttribute @Valid PostHashtagDTO postHashtagDTO) {
+    public ResponseEntity<Long> postHashtag( @RequestBody @Valid PostHashtagDTO postHashtagDTO) {
         HashtagVO newHashtag = hashtagService.postHashtagByTeam(postHashtagDTO);
         return BaseResponse.ok(newHashtag.hashtagId());
     }
